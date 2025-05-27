@@ -1,0 +1,21 @@
+{
+  "name": "jordy-observe-monorepo",
+  "private": true,
+  "description": "Enterprise AI Observability & Agent Engineering Platform",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "dev": "turbo run dev",
+    "build": "turbo run build",
+    "test": "turbo run test",
+    "lint": "turbo run lint"
+  },
+  "devDependencies": {
+    "turbo": "^1.10.15"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
