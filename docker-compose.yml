@@ -1,0 +1,84 @@
+version: '3.8'
+
+services:
+  # Primary API Service
+  api:
+    build:
+      context: ./apps/api
+      dockerfile: Dockerfile
+    volumes:
+      - ./apps/api:/app
+    environment:
+      - DATABASE_URL=postgresql://jordy:jordy_pass@db:5432/jordy_observe
+      - REDIS_URL=redis://redis:6379/0
+      - QDRANT_HOST=qdrant
+      - QDRANT_PORT=6333
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+      - redis
+      - qdrant
+    networks:
+      - jordy_network
+
+  # Web Dashboard
+  web:
+    build:
+      context: ./apps/web
+      dockerfile: Dockerfile
+    volumes:
+      - ./apps/web:/app
+      - /app/node_modules
+    environment:
+      - NEXT_PUBLIC_API_URL=http://localhost:8000/api/v1
+    ports:
+      - "3000:3000"
+    depends_on:
+      - api
+    networks:
+      - jordy_network
+
+  # Database (TimescaleDB)
+  db:
+    image: timescale/timescaledb:latest-pg15
+    environment:
+      - POSTGRES_DB=jordy_observe
+      - POSTGRES_USER=jordy
+      - POSTGRES_PASSWORD=jordy_pass
+    ports:
+      - "5432:5432"
+    volumes:
+      - jordy_postgres_data:/var/lib/postgresql/data
+    networks:
+      - jordy_network
+
+  # Redis for Caching and Pub/Sub
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    volumes:
+      - jordy_redis_data:/data
+    networks:
+      - jordy_network
+
+  # Vector DB for Embeddings
+  qdrant:
+    image: qdrant/qdrant:latest
+    ports:
+      - "6333:6333"
+      - "6334:6334"
+    volumes:
+      - jordy_qdrant_data:/qdrant/storage
+    networks:
+      - jordy_network
+
+networks:
+  jordy_network:
+    driver: bridge
+
+volumes:
+  jordy_postgres_data:
+  jordy_redis_data:
+  jordy_qdrant_data:
