@@ -1,0 +1,19 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --primary: #8B5CF6;
+  --secondary: #EC4899;
+}
+
+body {
+  background-color: #0F172A;
+}
+
+@layer base {
+  @font-face {
+    font-family: 'Outfit';
+    src: url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&display=swap');
+  }
+}
