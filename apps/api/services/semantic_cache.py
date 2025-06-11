@@ -50,3 +50,5 @@ class SemanticCacheService:
             payload=payload
         )
         logger.info(f"Cached semantic response for query: {query_text[:50]}...")
+
+# Normalization logic added to improve hit rates
