@@ -85,3 +85,5 @@ const RagInsights: React.FC<RagInsightsProps> = ({ sources, query }) => {
 };
 
 export default RagInsights; ''')
+
+// Visual improvements and typography updates
