@@ -3,15 +3,20 @@
 import React from 'react';
 import MetricCard from '@/components/MetricCard';
 import TraceList from '@/components/TraceList';
+import CostBreakdown from '@/components/CostBreakdown';
+import GroundingScore from '@/components/GroundingScore';
 import {
   Activity,
   Clock,
-  Target,
-  DollarSign,
   Zap,
-  Filter,
-  RefreshCcw,
-  Plus
+  Plus,
+  ArrowUpRight,
+  ShieldCheck,
+  BrainCircuit,
+  Binary,
+  Compass,
+  Cpu,
+  Layers
 } from 'lucide-react';
 
 export default function Home() {
@@ -22,105 +27,136 @@ export default function Home() {
     { id: 't_f8a4', name: 'Embeddings v1', status: 'completed', latency_ms: 320, total_cost_usd: 0.0005, start_time: new Date().toISOString() },
   ];
 
+  const mockCostData = [
+    { model: 'gpt-4o', cost: 285.40, requests: 4500, percentage: 65 },
+    { model: 'claude-3.5-sonnet', cost: 124.20, requests: 2100, percentage: 35 },
+    { model: 'gpt-4o-mini', cost: 42.52, requests: 12842, percentage: 15 },
+  ];
+
   return (
-    <div className="space-y-10 animate-in fade-in duration-700">
-      <header className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-        <div>
-          <h2 className="text-4xl font-black tracking-tight text-white">System <span className="text-primary italic">Overview</span></h2>
-          <p className="text-slate-500 mt-2 font-medium">Real-time performance analytics for your AI infrastructure.</p>
+    <div className="space-y-12 pb-24 relative overflow-visible">
+      {/* 3D Floating Decoration - Abstract Mesh Vibe */}
+      <div className="absolute -top-40 -right-40 w-[600px] h-[600px] bg-primary/10 rounded-full blur-[140px] pointer-events-none" />
+      <div className="absolute top-1/2 -left-40 w-[500px] h-[500px] bg-secondary/10 rounded-full blur-[140px] pointer-events-none animate-float" />
+
+      <header className="flex flex-col md:flex-row md:items-end justify-between gap-6 relative z-10">
+        <div className="space-y-4">
+          <div className="flex items-center gap-3">
+            <div className="p-2 bg-primary/20 rounded-xl border border-primary/20 backdrop-blur-md">
+              <Cpu size={20} className="text-primary" />
+            </div>
+            <div className="flex flex-col">
+              <span className="text-[10px] font-black text-slate-500 uppercase tracking-[0.3em]">Neural Monitoring</span>
+              <span className="flex items-center gap-1 text-[10px] text-emerald-400 font-black"><ShieldCheck size={12} /> GLOBAL INSTANCE: UP</span>
+            </div>
+          </div>
+          <h2 className="text-6xl font-black tracking-tighter text-white uppercase italic leading-none">
+            Observe <span className="text-primary text-glow italic">Dashboard</span>
+          </h2>
         </div>
-        <div className="flex items-center gap-3">
-          <button className="flex items-center gap-2 px-4 py-2 rounded-xl bg-slate-800/50 border border-slate-700 text-slate-300 hover:text-white hover:bg-slate-700 transition font-bold text-sm">
-            <Filter size={16} /> Filter
-          </button>
-          <button className="flex items-center gap-2 px-4 py-2 rounded-xl bg-slate-800/50 border border-slate-700 text-slate-300 hover:text-white transition font-bold text-sm">
-            <RefreshCcw size={16} /> Sync
-          </button>
-          <button className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-primary text-white font-bold shadow-lg shadow-primary/30 hover:bg-primary/90 transition text-sm">
-            <Plus size={18} /> New API Key
+
+        <div className="flex items-center gap-4">
+          <div className="hidden xl:flex items-center gap-6 px-6 py-3 bg-slate-900/40 rounded-3xl border border-slate-800 backdrop-blur-md">
+            <div className="flex flex-col text-right">
+              <span className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Active Nodes</span>
+              <span className="text-sm font-black text-white italic">14 swarms</span>
+            </div>
+            <div className="w-[1px] h-8 bg-slate-800" />
+            <div className="flex flex-col text-right">
+              <span className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Global P95</span>
+              <span className="text-sm font-black text-white italic">842ms</span>
+            </div>
+          </div>
+          <button className="flex items-center gap-2 px-8 py-4 rounded-3xl bg-white text-black font-black transition-all shadow-2xl shadow-primary/20 hover:scale-105 active:scale-95 uppercase text-xs tracking-[0.2em] italic">
+            <Plus size={18} /> Deploy Agent
           </button>
         </div>
       </header>
 
-      {/* Metrics Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        <MetricCard
-          label="Total Traces"
-          value="12,842"
-          delta="+14.2%"
-          icon={Activity}
-          color="primary"
-        />
-        <MetricCard
-          label="Avg Latency"
-          value="1.24s"
-          delta="-2.4%"
-          icon={Clock}
-          color="blue"
-        />
-        <MetricCard
-          label="Success Rate"
-          value="98.2%"
-          delta="+0.4%"
-          icon={Target}
-          color="emerald"
-        />
-        <MetricCard
-          label="Total Cost"
-          value="$452.12"
-          delta="+8.1%"
-          icon={DollarSign}
-          color="yellow"
-        />
+      {/* Metrics Grid with Perspective Transforms */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 perspective-1000">
+        <MetricCard label="Neural Traces" value="1.24M" delta="+24%" icon={Layers} color="primary" />
+        <MetricCard label="Sync Latency" value="142ms" delta="-8%" icon={Clock} color="blue" />
+        <MetricCard label="Groundedness" value="96.4%" delta="+1.5%" icon={BrainCircuit} color="emerald" />
+        <MetricCard label="Daily Burn" value="$142" delta="+4.2%" icon={Binary} color="yellow" />
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        {/* Main Feed */}
-        <div className="lg:col-span-2 space-y-6">
-          <div className="flex items-center justify-between px-2">
-            <h3 className="text-lg font-bold flex items-center gap-2">
-              <Zap size={18} className="text-primary" /> Live Trace Feed
-            </h3>
-            <span className="text-xs text-slate-500 font-mono">Viewing last 4 traces</span>
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 perspective-1000">
+        {/* Main Observation Hub (The Bento Grid Large Card) */}
+        <div className="lg:col-span-8 flex flex-col gap-8 preserve-3d">
+          <div className="glass-3d p-10 rounded-[48px] overflow-hidden group">
+            <div className="absolute top-0 right-0 w-64 h-64 bg-primary/5 blur-3xl -mr-20 -mt-20 group-hover:bg-primary/10 transition-colors" />
+
+            <div className="flex items-center justify-between mb-10">
+              <div className="space-y-1">
+                <h3 className="text-2xl font-black flex items-center gap-3 italic uppercase tracking-tighter text-white">
+                  <Zap size={24} className="text-primary animate-pulse" /> Live Observations
+                </h3>
+                <p className="text-xs text-slate-500 font-bold uppercase tracking-widest">Real-time stream from ingestion gateway</p>
+              </div>
+              <div className="flex items-center gap-2 bg-slate-900 border border-slate-800 px-4 py-2 rounded-2xl">
+                <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-ping" />
+                <span className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">Connected</span>
+              </div>
+            </div>
+
+            <TraceList traces={mockTraces as any} />
+
+            <button className="mt-10 w-full py-5 border-2 border-dashed border-slate-800/50 rounded-[32px] text-slate-500 text-[10px] font-black uppercase tracking-[0.3em] hover:border-primary/50 hover:text-primary transition-all flex items-center justify-center gap-3 group">
+              Explore Neural Graph <ArrowUpRight size={16} className="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
+            </button>
           </div>
-          <TraceList traces={mockTraces as any} />
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <GroundingScore score={0.96} citationsFound={18} totalClaims={19} />
+            <div className="glass-3d p-10 rounded-[48px] flex flex-col items-start group">
+              <div className="w-14 h-14 rounded-2xl bg-indigo-500/10 flex items-center justify-center mb-6 group-hover:rotate-12 transition-transform shadow-xl shadow-indigo-500/5">
+                <Compass size={28} className="text-indigo-400" />
+              </div>
+              <h4 className="text-xl font-black text-white italic uppercase tracking-tighter mb-3">Vector Discovery</h4>
+              <p className="text-sm text-slate-500 font-medium leading-relaxed mb-8">
+                Automatically cluster traces by semantic similarity. Identify common failure patterns autonomously.
+              </p>
+              <button className="mt-auto flex items-center gap-2 text-[10px] font-black text-white hover:text-primary transition uppercase tracking-[0.2em]">
+                Run Clustering <ArrowUpRight size={14} />
+              </button>
+            </div>
+          </div>
         </div>
 
-        {/* Sidebar Widgets */}
-        <div className="space-y-8">
-          <section className="bg-surface/50 p-6 rounded-3xl border border-slate-800 shadow-xl backdrop-blur-sm">
-            <h4 className="text-sm font-bold uppercase tracking-widest text-slate-500 mb-6 flex items-center gap-2">
-              <Activity size={14} className="text-secondary" /> Model Distribution
-            </h4>
-            <div className="space-y-4">
-              {[
-                { name: 'gpt-4-turbo', usage: '62%', color: 'bg-primary' },
-                { name: 'claude-3-opus', usage: '28%', color: 'bg-blue-500' },
-                { name: 'llama-3-70b', usage: '10%', color: 'bg-emerald-500' },
-              ].map(model => (
-                <div key={model.name} className="space-y-1.5">
-                  <div className="flex justify-between text-xs font-bold">
-                    <span className="text-slate-300">{model.name}</span>
-                    <span className="text-slate-500">{model.usage}</span>
-                  </div>
-                  <div className="h-1.5 bg-slate-800 rounded-full overflow-hidden">
-                    <div className={`h-full ${model.color} rounded-full`} style={{ width: model.usage }} />
-                  </div>
-                </div>
-              ))}
-            </div>
-          </section>
+        {/* Sidebar Intelligence (Bento Small Cards) */}
+        <div className="lg:col-span-4 flex flex-col gap-8 preserve-3d">
+          <CostBreakdown
+            data={mockCostData}
+            totalSpend={1424.12}
+          />
 
-          <section className="bg-gradient-to-br from-primary/10 to-secondary/10 p-8 rounded-3xl border border-primary/20 shadow-2xl relative overflow-hidden group">
-            <div className="absolute -top-12 -right-12 w-32 h-32 bg-primary/20 blur-3xl group-hover:bg-primary/30 transition-colors" />
-            <h4 className="text-lg font-black text-white mb-2">Jordy Pro</h4>
-            <p className="text-sm text-slate-400 leading-relaxed mb-6">
-              Unlock advanced auto-healing and custom evaluators for enterprise workflows.
+          <div className="glass-3d p-10 rounded-[48px] relative overflow-hidden group flex flex-col h-full min-h-[400px]">
+            <div className="absolute -bottom-20 -right-20 w-80 h-80 bg-secondary/10 blur-[100px] pointer-events-none" />
+
+            <div className="space-y-2 mb-8">
+              <span className="px-3 py-1 rounded-full bg-secondary/20 text-secondary text-[10px] font-black uppercase tracking-widest border border-secondary/20 italic">Elite Access</span>
+              <h4 className="text-3xl font-black text-white italic uppercase tracking-tighter leading-none pt-2">Jordy <br /><span className="text-secondary">Enterprise</span></h4>
+            </div>
+
+            <p className="text-sm text-slate-400 font-medium leading-relaxed mb-10">
+              Scale to billions of nodes with guaranteed sub-100ms global ingestion and SOC2/HIPAA compliance out of the box.
             </p>
-            <button className="w-full py-3 bg-white text-black font-bold rounded-xl hover:bg-slate-100 transition shadow-lg shadow-white/10">
-              Upgrade Now
-            </button>
-          </section>
+
+            <div className="mt-auto space-y-4">
+              <div className="flex items-center gap-3 text-xs font-bold text-slate-300">
+                <div className="w-5 h-5 rounded-full bg-slate-800 flex items-center justify-center"><Plus size={12} className="text-emerald-400" /></div>
+                Custom SSO Integration
+              </div>
+              <div className="flex items-center gap-3 text-xs font-bold text-slate-300 pb-8">
+                <div className="w-5 h-5 rounded-full bg-slate-800 flex items-center justify-center"><Plus size={12} className="text-emerald-400" /></div>
+                Shared Performance Benchmarks
+              </div>
+              <button className="w-full py-5 bg-gradient-to-br from-primary to-indigo-600 text-white font-black rounded-[24px] hover:scale-[1.02] active:scale-[0.98] transition shadow-2xl shadow-primary/30 uppercase text-[11px] tracking-[0.2em] italic">
+                Upgrade to Enterprise
+              </button>
+            </div>
+          </div>
         </div>
       </div>
     </div>

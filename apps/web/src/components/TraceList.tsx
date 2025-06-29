@@ -2,6 +2,7 @@
 
 import React from 'react';
 import { useRouter } from 'next/navigation';
+import { ChevronRight, Clock, DollarSign } from 'lucide-react';
 
 interface Trace {
   id: string;
@@ -16,55 +17,51 @@ const TraceList: React.FC<{ traces: Trace[] }> = ({ traces }) => {
   const router = useRouter();
 
   return (
-    <div className="bg-surface rounded-xl border border-slate-800 overflow-hidden shadow-2xl">
-      <div className="overflow-x-auto">
-        <table className="w-full text-left">
-          <thead className="bg-slate-800/50 text-slate-500 text-[10px] uppercase font-bold tracking-widest border-b border-slate-800">
-            <tr>
-              <th className="px-6 py-4">Status</th>
-              <th className="px-6 py-4">Trace Name</th>
-              <th className="px-6 py-4 text-right">Latency</th>
-              <th className="px-6 py-4 text-right">Cost</th>
-              <th className="px-6 py-4 text-right">Time</th>
-            </tr>
-          </thead>
-          <tbody className="divide-y divide-slate-800/50 text-[13px]">
-            {traces.map((trace) => (
-              <tr 
-                key={trace.id} 
-                className="hover:bg-slate-800/30 transition-colors cursor-pointer group"
-                onClick={() => router.push(`/traces/${trace.id}`)}
-              >
-                <td className="px-6 py-4 w-10 text-center">
-                  <div className={`w-2 h-2 rounded-full mx-auto animate-pulse ${
-                    trace.status === 'completed' ? 'bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.5)]' : 
-                    trace.status === 'failed' ? 'bg-red-500 shadow-[0_0_8px_rgba(239,68,68,0.5)]' : 'bg-blue-500'
-                  }`} />
-                </td>
-                <td className="px-6 py-4">
-                  <div className="flex flex-col">
-                    <span className="text-white font-medium group-hover:text-primary transition-colors">{trace.name || 'Anonymous Trace'}</span>
-                    <span className="text-[10px] text-slate-500 font-mono">{trace.id}</span>
-                  </div>
-                </td>
-                <td className="px-6 py-4 text-right font-semibold text-slate-300">
-                  {trace.latency_ms.toFixed(0)}<span className="text-[10px] text-slate-500 ml-0.5">ms</span>
-                </td>
-                <td className="px-6 py-4 text-right">
-                  <span className="bg-slate-800 text-emerald-400 px-2 py-0.5 rounded border border-slate-700 font-mono text-xs">
-                    ${trace.total_cost_usd.toFixed(4)}
-                  </span>
-                </td>
-                <td className="px-6 py-4 text-right text-slate-500 text-xs">
-                  {new Date(trace.start_time).toLocaleTimeString()}
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+    <div className="space-y-4">
+      {traces.map((trace) => (
+        <div
+          key={trace.id}
+          onClick={() => router.push(`/traces/${trace.id}`)}
+          className="group relative flex items-center justify-between p-6 bg-slate-900/40 rounded-[28px] border border-white/5 hover:border-primary/30 hover:bg-slate-900/60 transition-all duration-300 cursor-pointer shadow-xl hover:shadow-primary/5 active:scale-[0.99]"
+        >
+          <div className="flex items-center gap-6">
+            <div className={`w-3 h-3 rounded-full ${trace.status === 'completed' ? 'bg-emerald-500 shadow-[0_0_12px_rgba(16,185,129,0.4)]' :
+                trace.status === 'failed' ? 'bg-red-500 shadow-[0_0_12px_rgba(239,68,68,0.4)]' : 'bg-blue-500'
+              }`} />
+
+            <div className="flex flex-col">
+              <h5 className="text-sm font-black text-white uppercase tracking-tighter italic group-hover:text-primary transition-colors">
+                {trace.name || 'Anonymous Interaction'}
+              </h5>
+              <span className="text-[10px] text-slate-500 font-black uppercase tracking-widest">{trace.id}</span>
+            </div>
+          </div>
+
+          <div className="flex items-center gap-10">
+            <div className="hidden md:flex flex-col items-end">
+              <div className="flex items-center gap-1 text-slate-400">
+                <Clock size={12} />
+                <span className="text-[11px] font-black italic">{trace.latency_ms.toFixed(0)}MS</span>
+              </div>
+              <span className="text-[9px] text-slate-500 uppercase font-bold tracking-widest">End-to-End</span>
+            </div>
+
+            <div className="hidden md:flex flex-col items-end">
+              <div className="flex items-center gap-1 text-emerald-400">
+                <DollarSign size={12} />
+                <span className="text-[11px] font-black italic">{trace.total_cost_usd.toFixed(4)}</span>
+              </div>
+              <span className="text-[9px] text-slate-500 uppercase font-bold tracking-widest">Token Cost</span>
+            </div>
+
+            <div className="w-10 h-10 rounded-2xl bg-slate-800/50 flex items-center justify-center border border-white/5 group-hover:bg-primary group-hover:border-primary transition-all group-hover:scale-110">
+              <ChevronRight size={18} className="text-slate-500 group-hover:text-white transition-colors" />
+            </div>
+          </div>
+        </div>
+      ))}
     </div>
   );
 };
 
-export default TraceList;
+export default TraceList; ''')
