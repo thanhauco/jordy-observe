@@ -297,11 +297,159 @@ with jo.trace("my-agent") as trace:
 
 ---
 
-### Phase 9: Testing & Documentation
+## Technology Stack Summary
 
-#### Verification Plan
+| Layer | Technology | Purpose |
+|-------|------------|---------|
+| **Frontend** | Next.js 14, React 18, TypeScript | Web dashboard |
+| **Styling** | Tailwind CSS, Radix UI | UI components |
+| **Backend** | FastAPI (Python 3.11+) | REST API |
+| **Real-time** | WebSockets, Redis Pub/Sub | Live updates |
+| **Database** | PostgreSQL 16 | Primary data store |
+| **Time-series** | TimescaleDB | Metrics storage |
+| **Analytics** | ClickHouse | OLAP queries |
+| **Vector DB** | Qdrant | Embedding storage |
+| **Queue** | Redis Streams | Message processing |
+| **Cache** | Redis | Caching layer |
+| **Search** | Elasticsearch | Full-text search |
+| **Object Store** | MinIO / S3 | File storage |
 
-1. **Unit Tests**: Coverage for all core logic and APIs.
-2. **Integration Tests**: End-to-end trace ingestion and retrieval workflows.
-3. **Performance Tests**: High-concurrency ingestion benchmarks.
-4. **Manual Verification**: Guided testing for all major UI modules.
+---
+
+## Database Schema (Key Tables)
+
+```sql
+-- Projects
+CREATE TABLE projects (
+    id UUID PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    api_key VARCHAR(64) UNIQUE,
+    created_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+-- Traces
+CREATE TABLE traces (
+    id UUID PRIMARY KEY,
+    project_id UUID REFERENCES projects(id),
+    session_id VARCHAR(255),
+    user_id VARCHAR(255),
+    start_time TIMESTAMPTZ NOT NULL,
+    end_time TIMESTAMPTZ,
+    status VARCHAR(20),
+    metadata JSONB
+);
+
+-- Spans
+CREATE TABLE spans (
+    id UUID PRIMARY KEY,
+    trace_id UUID REFERENCES traces(id),
+    parent_span_id UUID,
+    name VARCHAR(255),
+    span_type VARCHAR(50), -- 'llm', 'tool', 'retrieval', 'agent'
+    input JSONB,
+    output JSONB,
+    start_time TIMESTAMPTZ,
+    end_time TIMESTAMPTZ,
+    attributes JSONB,
+    events JSONB[]
+);
+
+-- Evaluations
+CREATE TABLE evaluations (
+    id UUID PRIMARY KEY,
+    trace_id UUID REFERENCES traces(id),
+    span_id UUID REFERENCES spans(id),
+    evaluator_name VARCHAR(100),
+    score FLOAT,
+    label VARCHAR(50),
+    explanation TEXT,
+    created_at TIMESTAMPTZ DEFAULT NOW()
+);
+```
+
+---
+
+## Verification Plan
+
+### Automated Tests
+
+#### Unit Tests
+```bash
+# Backend tests
+cd apps/api
+pytest tests/ -v --cov=app --cov-report=html
+
+# Frontend tests
+cd apps/web
+npm run test
+```
+
+#### Integration Tests
+```bash
+# API integration tests
+pytest tests/integration/ -v
+
+# E2E browser tests
+cd apps/web
+npx playwright test
+```
+
+#### Load Testing
+```bash
+# Trace ingestion performance
+k6 run tests/load/trace_ingestion.js
+```
+
+### Manual Verification
+
+1. **Trace Ingestion Flow**
+   - Use Python SDK to send sample traces
+   - Verify traces appear in dashboard
+   - Confirm span hierarchy is correct
+
+2. **Evaluation Pipeline**
+   - Create a dataset with known inputs/outputs
+   - Run hallucination evaluator
+   - Verify scores match expected results
+
+3. **Real-time Updates**
+   - Open dashboard in browser
+   - Send new traces via SDK
+   - Confirm traces appear within 2 seconds
+
+4. **Alert System**
+   - Configure latency alert (threshold: 1000ms)
+   - Send slow traces (>1000ms)
+   - Verify alert notification received
+
+---
+
+## Implementation Phases & Timeline
+
+| Phase | Description | Estimated Duration |
+|-------|-------------|-------------------|
+| 1 | Project Setup & Infrastructure | 3-4 days |
+| 2 | Core Backend (API + DB) | 5-7 days |
+| 3 | Observability Engine | 5-7 days |
+| 4 | LLM Evaluation Module | 5-7 days |
+| 5 | Agent Engineering Tools | 4-5 days |
+| 6 | Monitoring & Alerting | 3-4 days |
+| 7 | Web Dashboard | 7-10 days |
+| 8 | SDKs & Integrations | 4-5 days |
+| 9 | Testing & Documentation | 3-4 days |
+
+**Total Estimated: 6-8 weeks** (focused development)
+
+---
+
+## Key Differentiators
+
+1. **Open Standards First**: Built on OpenTelemetry for maximum compatibility
+2. **Self-Hostable**: Full control over data with Docker/Kubernetes deployment
+3. **Extensible Evaluators**: Plugin architecture for custom evaluation logic
+4. **Real-time by Default**: WebSocket-based live updates throughout
+5. **Developer Experience**: First-class SDK support with minimal setup
+
+---
+
+
