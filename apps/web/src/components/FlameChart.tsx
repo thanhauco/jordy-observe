@@ -1,9 +1,6 @@
-import React from 'react';
+"use client";
 
-/**
- * Premium FlameChart component for trace visualization.
- * Renders hierarchical spans with precise timing and interactive tooltips.
- */
+import React from 'react';
 
 interface Span {
     id: string;
@@ -26,12 +23,12 @@ interface FlameChartProps {
 }
 
 const typeColorMap: Record<string, string> = {
-    llm: 'bg-purple-500/80 border-purple-400',
-    retrieval: 'bg-blue-500/80 border-blue-400',
-    tool: 'bg-orange-500/80 border-orange-400',
-    chain: 'bg-slate-500/80 border-slate-400',
-    agent: 'bg-emerald-500/80 border-emerald-400',
-    custom: 'bg-indigo-500/80 border-indigo-400',
+    llm: 'bg-primary border-primary/40 shadow-[0_0_15px_rgba(139,92,246,0.3)]',
+    retrieval: 'bg-blue-500 border-blue-400/40 shadow-[0_0_15px_rgba(59,130,246,0.3)]',
+    tool: 'bg-amber-500 border-amber-400/40 shadow-[0_0_15px_rgba(245,158,11,0.3)]',
+    chain: 'bg-slate-600 border-slate-500/40 shadow-[0_0_15px_rgba(71,85,105,0.3)]',
+    agent: 'bg-emerald-500 border-emerald-400/40 shadow-[0_0_15px_rgba(16,185,129,0.3)]',
+    custom: 'bg-indigo-500 border-indigo-400/40 shadow-[0_0_15px_rgba(99,102,241,0.3)]',
 };
 
 const FlameChart: React.FC<FlameChartProps> = ({ trace }) => {
@@ -41,20 +38,19 @@ const FlameChart: React.FC<FlameChartProps> = ({ trace }) => {
     const renderSpan = (span: Span, depth: number = 0) => {
         const spanStart = new Date(span.start_time).getTime();
         const relativeStart = ((spanStart - traceStartTime) / totalDuration) * 100;
-        const width = ((span.latency_ms || 0) / totalDuration) * 100;
+        const width = Math.max(((span.latency_ms || 0) / totalDuration) * 100, 0.5);
 
         return (
             <React.Fragment key={span.id}>
                 <div
-                    className="relative h-8 mb-1 group"
+                    className="relative h-10 mb-2 group transition-all duration-500"
                     style={{ paddingLeft: `${relativeStart}%`, width: `${width}%` }}
                 >
                     <div
-                        className={`h-full rounded border-l-2 flex items-center px-2 text-[10px] font-bold truncate cursor-pointer hover:brightness-110 transition shadow-sm ${typeColorMap[span.span_type] || typeColorMap.custom}`}
-                        title={`${span.name} (${span.latency_ms?.toFixed(1)}ms)`}
+                        className={`h-full rounded-2xl border flex items-center px-4 text-[10px] font-black italic uppercase tracking-widest text-white truncate cursor-pointer hover:scale-[1.02] hover:-translate-y-0.5 active:scale-100 transition-all duration-300 ${typeColorMap[span.span_type] || typeColorMap.custom}`}
                     >
-                        {span.name}
-                        <div className="absolute top-0 left-0 w-full h-full opacity-0 group-hover:opacity-100 bg-white/5 pointer-events-none" />
+                        <span className="truncate">{span.name}</span>
+                        <span className="ml-auto opacity-60 text-[8px] pl-2">{span.latency_ms?.toFixed(0)}MS</span>
                     </div>
                 </div>
                 {span.children?.map(child => renderSpan(child, depth + 1))}
@@ -62,7 +58,6 @@ const FlameChart: React.FC<FlameChartProps> = ({ trace }) => {
         );
     };
 
-    // Helper to build hierarchy
     const buildTree = (spans: Span[]) => {
         const map = new Map<string, Span & { children: Span[] }>();
         const roots: Span[] = [];
@@ -84,29 +79,37 @@ const FlameChart: React.FC<FlameChartProps> = ({ trace }) => {
     const roots = buildTree(trace.spans);
 
     return (
-        <div className="bg-surface/50 rounded-xl p-6 border border-slate-800 shadow-xl overflow-hidden backdrop-blur-sm">
-            <div className="flex items-center justify-between mb-4">
-                <h3 className="font-bold text-slate-200">Execution Waterfall</h3>
-                <span className="text-xs text-slate-500 font-mono">Total Duration: {totalDuration.toFixed(1)}ms</span>
+        <div className="glass-3d p-10 rounded-[48px] relative overflow-hidden group">
+            <div className="absolute top-0 right-0 w-64 h-64 bg-primary/5 blur-3xl -mr-20 -mt-20 group-hover:bg-primary/10 transition-colors" />
+
+            <div className="flex items-center justify-between mb-10">
+                <div className="space-y-1">
+                    <h3 className="text-2xl font-black text-white italic uppercase tracking-tighter">Neural Waterfall</h3>
+                    <p className="text-[10px] font-black text-slate-500 uppercase tracking-widest">Async execution flow visualization</p>
+                </div>
+                <div className="text-right">
+                    <p className="text-[10px] font-black text-slate-500 uppercase tracking-widest mb-1">Total Wall Time</p>
+                    <p className="text-2xl font-black text-white italic tracking-tighter uppercase">{totalDuration.toFixed(1)}ms</p>
+                </div>
             </div>
 
-            <div className="relative min-h-[300px] overflow-x-auto protocol-scrollbar">
+            <div className="relative min-h-[400px] overflow-visible preserve-3d">
                 {/* Timing markers */}
-                <div className="absolute top-0 left-0 w-full h-full pointer-events-none">
+                <div className="absolute top-0 left-0 w-full h-full pointer-events-none z-0">
                     {[0, 25, 50, 75, 100].map(p => (
                         <div
                             key={p}
-                            className="absolute h-full border-l border-slate-700/50"
+                            className="absolute h-full border-l border-slate-800/50"
                             style={{ left: `${p}%` }}
                         >
-                            <span className="text-[8px] text-slate-600 block -ml-2 -mt-4">
+                            <span className="absolute -bottom-8 left-0 text-[9px] font-black text-slate-600 uppercase tracking-tighter">
                                 {((p / 100) * totalDuration).toFixed(0)}ms
                             </span>
                         </div>
                     ))}
                 </div>
 
-                <div className="pt-4">
+                <div className="pt-4 relative z-10 pb-12">
                     {roots.map(root => renderSpan(root))}
                 </div>
             </div>
