@@ -66,4 +66,4 @@ const GroundingScore: React.FC<GroundingScoreProps> = ({ score, citationsFound, 
     );
 };
 
-export default GroundingScore; ''')
+export default GroundingScore;

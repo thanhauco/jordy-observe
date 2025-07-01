@@ -24,7 +24,6 @@ const MetricCard: React.FC<MetricCardProps> = ({ label, value, delta, icon: Icon
 
   return (
     <div className="glass-3d p-8 rounded-[40px] preserve-3d group cursor-pointer overflow-hidden relative">
-      {/* Shine Effect Overlay */}
       <div className="absolute inset-0 opacity-0 group-hover:opacity-10 dark:group-hover:opacity-20 transition-opacity bg-gradient-to-tr from-transparent via-white to-transparent -translate-x-full group-hover:translate-x-full duration-1000 ease-in-out pointer-events-none" />
 
       <div className="flex justify-between items-start mb-10 relative z-10">
@@ -45,7 +44,6 @@ const MetricCard: React.FC<MetricCardProps> = ({ label, value, delta, icon: Icon
         </h4>
       </div>
 
-      {/* Abstract Flow Line */}
       <div className="absolute bottom-6 right-8 opacity-20 group-hover:opacity-40 transition-opacity">
         <div className={`w-16 h-1 rounded-full bg-${color === 'primary' ? 'primary' : color + '-400'}`} />
       </div>
@@ -53,4 +51,4 @@ const MetricCard: React.FC<MetricCardProps> = ({ label, value, delta, icon: Icon
   );
 };
 
-export default MetricCard; ''')
+export default MetricCard;

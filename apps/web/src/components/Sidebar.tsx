@@ -31,7 +31,7 @@ const Sidebar = () => {
   return (
     <aside className="w-80 border-r border-white/5 bg-[#020617]/40 backdrop-blur-3xl flex flex-col h-full relative z-50">
       <div className="p-10">
-        <div className="flex items-center gap-4 group cursor-pointer">
+        <Link href="/" className="flex items-center gap-4 group cursor-pointer">
           <div className="w-12 h-12 rounded-2xl bg-gradient-to-tr from-primary to-indigo-600 flex items-center justify-center shadow-2xl shadow-primary/30 group-hover:scale-110 transition-transform duration-500">
             <Cpu className="text-white" size={24} />
           </div>
@@ -41,7 +41,7 @@ const Sidebar = () => {
             </h1>
             <span className="text-[10px] font-black text-slate-500 uppercase tracking-[0.4em] pt-1">Observe</span>
           </div>
-        </div>
+        </Link>
       </div>
 
       <nav className="flex-1 px-6 py-4 space-y-2">
@@ -52,8 +52,8 @@ const Sidebar = () => {
               key={item.name}
               href={item.href}
               className={`flex items-center gap-4 px-6 py-4 rounded-[20px] transition-all duration-300 group ${active
-                  ? 'bg-primary/10 text-primary border border-primary/20 shadow-xl shadow-primary/5'
-                  : 'text-slate-500 hover:text-white hover:bg-white/5'
+                ? 'bg-primary/10 text-primary border border-primary/20 shadow-xl shadow-primary/5'
+                : 'text-slate-500 hover:text-white hover:bg-white/5'
                 }`}
             >
               <item.icon size={20} className={active ? 'text-primary' : 'text-slate-600 group-hover:text-slate-300 transition-colors'} />
@@ -93,4 +93,4 @@ const Sidebar = () => {
   );
 };
 
-export default Sidebar; ''')
+export default Sidebar;

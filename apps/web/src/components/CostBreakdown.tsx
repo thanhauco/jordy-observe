@@ -77,4 +77,4 @@ const CostBreakdown: React.FC<CostBreakdownProps> = ({ data, totalSpend }) => {
     );
 };
 
-export default CostBreakdown; ''')
+export default CostBreakdown;

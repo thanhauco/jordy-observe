@@ -8,7 +8,7 @@ import {
     Tag,
     ChevronRight,
     Calendar,
-    CloudUpload,
+    UploadCloud,
     Layers,
     Sparkles,
     ShieldCheck,
@@ -48,7 +48,7 @@ export default function DatasetsPage() {
 
                 <div className="flex items-center gap-4">
                     <button className="flex items-center gap-2 px-8 py-4 rounded-3xl bg-slate-900 border border-slate-800 text-slate-400 font-black transition-all hover:text-white uppercase text-[10px] tracking-[0.2em] italic">
-                        <CloudUpload size={18} /> Bulk Ingest
+                        <UploadCloud size={18} /> Bulk Ingest
                     </button>
                     <button className="flex items-center gap-2 px-8 py-4 rounded-3xl bg-white text-black font-black transition-all shadow-2xl shadow-primary/20 hover:scale-105 active:scale-95 uppercase text-[10px] tracking-[0.2em] italic">
                         <Plus size={18} /> New Dataset
@@ -75,8 +75,8 @@ export default function DatasetsPage() {
                                     key={ds.id}
                                     onClick={() => setSelectedId(ds.id)}
                                     className={`p-6 rounded-[32px] cursor-pointer transition-all duration-300 border relative overflow-hidden group/card ${selectedId === ds.id
-                                            ? "bg-primary/20 border-primary/30 shadow-2xl shadow-primary/10"
-                                            : "bg-slate-900/40 border-white/5 hover:border-white/10"
+                                        ? "bg-primary/20 border-primary/30 shadow-2xl shadow-primary/10"
+                                        : "bg-slate-900/40 border-white/5 hover:border-white/10"
                                         }`}
                                 >
                                     <div className="flex justify-between items-start mb-4">

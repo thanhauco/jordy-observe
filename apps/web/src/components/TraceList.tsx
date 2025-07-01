@@ -26,7 +26,7 @@ const TraceList: React.FC<{ traces: Trace[] }> = ({ traces }) => {
         >
           <div className="flex items-center gap-6">
             <div className={`w-3 h-3 rounded-full ${trace.status === 'completed' ? 'bg-emerald-500 shadow-[0_0_12px_rgba(16,185,129,0.4)]' :
-                trace.status === 'failed' ? 'bg-red-500 shadow-[0_0_12px_rgba(239,68,68,0.4)]' : 'bg-blue-500'
+              trace.status === 'failed' ? 'bg-red-500 shadow-[0_0_12px_rgba(239,68,68,0.4)]' : 'bg-blue-500'
               }`} />
 
             <div className="flex flex-col">
@@ -64,4 +64,4 @@ const TraceList: React.FC<{ traces: Trace[] }> = ({ traces }) => {
   );
 };
 
-export default TraceList; ''')
+export default TraceList;

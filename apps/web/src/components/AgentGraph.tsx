@@ -71,4 +71,4 @@ const AgentGraph: React.FC<AgentGraphProps> = ({ nodes, edges }) => {
     );
 };
 
-export default AgentGraph; ''')
+export default AgentGraph;

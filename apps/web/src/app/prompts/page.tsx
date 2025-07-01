@@ -70,8 +70,8 @@ export default function PromptsPage() {
                                     key={p.id}
                                     onClick={() => setSelectedPrompt(p.id)}
                                     className={`p-5 rounded-[24px] cursor-pointer transition-all duration-300 border ${selectedPrompt === p.id
-                                            ? "bg-primary/20 border-primary/30 shadow-xl shadow-primary/10"
-                                            : "bg-slate-900/40 border-white/5 hover:border-white/10"
+                                        ? "bg-primary/20 border-primary/30 shadow-xl shadow-primary/10"
+                                        : "bg-slate-900/40 border-white/5 hover:border-white/10"
                                         }`}
                                 >
                                     <div className="flex justify-between items-center mb-1">
@@ -168,13 +168,13 @@ export default function PromptsPage() {
                         </h4>
                         <div className="space-y-6">
                             <div>
-                                <span className="text-[10px] font-black text-slate-500 uppercase tracking-widest">Variable: {{ context }}</span>
+                                <span className="text-[10px] font-black text-slate-500 uppercase tracking-widest">Variable: {"{{ context }}"}</span>
                                 <div className="mt-2 p-4 bg-slate-900/60 rounded-2xl border border-white/5 text-[10px] text-slate-400 italic">
                                     Legal document text from OCR layer...
                                 </div>
                             </div>
                             <div>
-                                <span className="text-[10px] font-black text-slate-500 uppercase tracking-widest">Variable: {{ section }}</span>
+                                <span className="text-[10px] font-black text-slate-500 uppercase tracking-widest">Variable: {"{{ section }}"}</span>
                                 <div className="mt-2 p-4 bg-slate-900/60 rounded-2xl border border-white/5 text-[10px] text-slate-400 italic">
                                     Section identifier (e.g. 4.5)
                                 </div>

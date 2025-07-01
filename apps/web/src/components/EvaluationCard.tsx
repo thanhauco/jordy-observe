@@ -7,7 +7,8 @@ import {
     Target,
     ShieldAlert,
     Search,
-    FileText
+    FileText,
+    EyeOff
 } from 'lucide-react';
 
 interface Evaluation {
@@ -28,7 +29,6 @@ const evaluatorConfig: Record<string, { icon: any, color: string, bg: string }> 
     custom: { icon: Search, color: 'text-slate-400', bg: 'bg-slate-500/10 border-slate-500/20' }
 };
 
-// Component for displaying evaluation results with progress bars and sentiment icons
 const EvaluationCard: React.FC<{ evaluation: Evaluation }> = ({ evaluation }) => {
     const config = evaluatorConfig[evaluation.evaluator_type] || evaluatorConfig.custom;
     const Icon = config.icon;
@@ -61,7 +61,6 @@ const EvaluationCard: React.FC<{ evaluation: Evaluation }> = ({ evaluation }) =>
                 </div>
             )}
 
-            {/* Visual Indicator */}
             <div className="w-full h-1.5 bg-black/30 rounded-full overflow-hidden">
                 <div
                     className={`h-full transition-all duration-1000 ${evaluation.score > 0.8 ? 'bg-emerald-500' : evaluation.score > 0.5 ? 'bg-yellow-500' : 'bg-red-500'}`}
