@@ -19,12 +19,15 @@ import {
     BrainCircuit
 } from 'lucide-react';
 import Link from 'next/link';
+import { useParams } from 'next/navigation';
 
-export default function TraceDetail({ params }: { params: { id: string } }) {
+export default function TraceDetail() {
+    const params = useParams();
+    const traceId = params.id as string;
     const [selectedSpan, setSelectedSpan] = useState<any>(null);
 
     const mockTrace = {
-        id: params.id,
+        id: traceId,
         name: "RAG Agent - Legal Assistant",
         status: "completed",
         start_time: "2024-03-25T10:00:00Z",
@@ -99,7 +102,7 @@ export default function TraceDetail({ params }: { params: { id: string } }) {
                         <div className="flex flex-col">
                             <div className="flex items-center gap-2">
                                 <span className="px-2 py-0.5 rounded-md bg-emerald-500/10 text-emerald-400 text-[10px] font-black uppercase tracking-widest border border-emerald-500/20">Active Trace</span>
-                                <span className="text-[10px] font-black text-slate-500 uppercase tracking-widest">ID: {params.id}</span>
+                                <span className="text-[10px] font-black text-slate-500 uppercase tracking-widest">ID: {traceId}</span>
                             </div>
                             <h2 className="text-5xl font-black tracking-tighter text-white uppercase italic leading-tight">
                                 Trace <span className="text-primary text-glow italic">Insight</span>

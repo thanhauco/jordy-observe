@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import TraceList from '@/components/TraceList';
+import Link from 'next/link';
 import {
     Search,
     Filter,
@@ -10,7 +11,8 @@ import {
     Calendar,
     ChevronDown,
     Database,
-    ArrowUpRight
+    ArrowUpRight,
+    ArrowLeft
 } from 'lucide-react';
 
 export default function TraceExplorer() {
@@ -32,6 +34,13 @@ export default function TraceExplorer() {
 
             <header className="flex flex-col md:flex-row md:items-end justify-between gap-6 relative z-10">
                 <div className="space-y-4">
+                    <nav className="flex items-center gap-4 text-slate-500 mb-2">
+                        <Link href="/" className="hover:text-primary transition flex items-center gap-2 text-[10px] font-black uppercase tracking-[0.2em] italic">
+                            <ArrowLeft size={16} /> Dashboard
+                        </Link>
+                        <div className="w-1 h-1 rounded-full bg-slate-800" />
+                        <span className="text-[10px] font-black text-white uppercase tracking-[0.2em] italic">Trace Explorer</span>
+                    </nav>
                     <div className="flex items-center gap-3">
                         <div className="p-2 bg-indigo-500/20 rounded-xl border border-indigo-500/20 backdrop-blur-md">
                             <Database size={20} className="text-indigo-400" />
