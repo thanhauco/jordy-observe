@@ -17,6 +17,26 @@
 - **Real-time Monitoring** - Live dashboards with WebSocket updates
 - **Auto-Healing** - Automatic prompt optimization for failing traces
 
+## 🖼️ Visual Experience
+
+### 📊 Global Overview & Monitoring
+![Dashboard](docs/screenshots/dashboard.png)
+*The central hub providing real-time P95 latency, throughput, and error rate distributions with 3D glassmorphism elements.*
+
+### 🔍 Deep Trace Inspection
+![Trace Detail](docs/screenshots/trace_detail.png)
+*Custom high-fidelity Waterfall (FlameChart) visualization for debugging complex multi-agent delegation chains.*
+
+### 🧠 Neural Studio Suite
+| Neural Vault (Datasets) | Neural Logic (Prompts) |
+| :--- | :--- |
+| ![Datasets](docs/screenshots/datasets.png) | ![Prompts](docs/screenshots/prompts.png) |
+
+### 🧪 Quality & Security
+| Neural Factory (Evaluations) | Neural Sentry (Alerts) |
+| :--- | :--- |
+| ![Evaluations](docs/screenshots/evaluations.png) | ![Alerts](docs/screenshots/alerts.png) |
+
 ## 🏗️ Architecture
 
 ```mermaid
